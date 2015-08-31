@@ -166,6 +166,7 @@ FILELIST="
 /usr/jails/dtfc/usr/local/etc/nginx/sites-enabled/                        root      wheel     755
 /usr/jails/dtfc/usr/local/etc/nginx/sites-enabled/dtfc                    root      wheel     644
 /usr/jails/dtfc/usr/local/etc/nginx/tls.conf                              root      wheel     644
+/usr/jails/dtfc/usr/local/etc/rc.d/dtfc                                   root      wheel     755
 /usr/jails/ejabberd/                                                      root      wheel     755
 /usr/jails/ejabberd/etc/                                                  root      wheel     755
 /usr/jails/ejabberd/etc/group                                             root      wheel     644
