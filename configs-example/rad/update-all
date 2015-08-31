@@ -12,6 +12,7 @@ for i in ${HOSTS} ; do
     ssh -t $i 'pf-table add white $REMOTEHOST'
     case $i in
         alpha)
+            ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v bootpool -q"
             ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v pool -q"
             ssh -t $i "env SQUID=10.7.7.1:3128 setproxy"
             if [ "1" == "$FULL" ]; then
@@ -22,6 +23,7 @@ for i in ${HOSTS} ; do
             ssh -t $i tmux new-session "eza-freebsd-update"
             ;;
         beta)
+            ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v bootpool -q"
             ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v pool -q"
             ssh -t $i "env SQUID=${SQUID} setproxy"
             if [ "1" == "$FULL" ]; then
@@ -32,6 +34,7 @@ for i in ${HOSTS} ; do
             ssh -t $i tmux new-session "env SQUID=${SQUID} eza-freebsd-update"
             ;;
         tank)
+            ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v bootpool -q"
             ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v pool -q"
             ssh -t $i "env SQUID=${SQUID} setproxy"
             if [ "1" == "$FULL" ]; then
