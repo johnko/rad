@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ssh ${REMOTEHOST} sh <<EOF
+crontabbed;
+EOF

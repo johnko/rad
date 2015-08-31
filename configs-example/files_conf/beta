@@ -1,0 +1,9 @@
+#!/bin/sh
+FILELIST="
+${FILELIST}
+/usr/jails/nginx/usr/local/etc/nginx/ssl/         root      wheel  755
+/usr/jails/nginx/usr/local/etc/nginx/ssl/ssl.crt  root      wheel  644
+/usr/jails/nginx/usr/local/etc/nginx/ssl/ssl.csr  root      wheel  600
+/usr/jails/nginx/usr/local/etc/nginx/ssl/ssl.key  root      wheel  600
+"
+export                                            FILELIST

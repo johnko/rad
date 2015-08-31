@@ -1,0 +1,7 @@
+#!/bin/sh
+
+ssh ${REMOTEHOST} sh <<EOF
+eza-jls-id ;
+EOF
+
+# eza start ;

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+HOSTS="alpha beta"
+
+for i in ${HOSTS} ; do
+    rad_pull_files $i
+done
+
+# remove empty folders
+for a in `seq 1 10` ; do
+    find ./hosts -type d -exec rmdir {} \; 2> /dev/null
+done

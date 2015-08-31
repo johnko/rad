@@ -1,0 +1,63 @@
+#!/bin/sh
+
+HOSTS="alpha beta"
+SQUID=192.168.255.201:3128
+
+
+if [ "x-f" == "x$1" ]; then
+    FULL=1
+fi
+
+for i in ${HOSTS} ; do
+    ssh -t $i 'pf-table add white $REMOTEHOST'
+    case $i in
+        alpha)
+            ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v pool -q"
+            ssh -t $i "env SQUID=10.7.7.1:3128 setproxy"
+            if [ "1" == "$FULL" ]; then
+                ssh -t $i tmux new-session "env PAGER=cat freebsd-update -F fetch install"
+            fi
+            ssh -t $i tmux new-session "fres"
+            ssh -t $i tmux new-session "fres -b"
+            ssh -t $i tmux new-session "eza-freebsd-update"
+            ;;
+        beta)
+            ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v pool -q"
+            ssh -t $i "env SQUID=${SQUID} setproxy"
+            if [ "1" == "$FULL" ]; then
+                ssh -t $i tmux new-session "env PAGER=cat freebsd-update -F fetch install"
+            fi
+            ssh -t $i tmux new-session "fres"
+            ssh -t $i tmux new-session "fres -b"
+            ssh -t $i tmux new-session "env SQUID=${SQUID} eza-freebsd-update"
+            ;;
+        tank)
+            ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v pool -q"
+            ssh -t $i "env SQUID=${SQUID} setproxy"
+            if [ "1" == "$FULL" ]; then
+                ssh -t $i tmux new-session "env PAGER=cat freebsd-update -F fetch install"
+            fi
+            ssh -t $i tmux new-session "fres"
+            ssh -t $i tmux new-session "fres -b"
+            ;;
+        old)
+            if [ "1" == "$FULL" ]; then
+                ssh -t $i tmux new-session "env PAGER=cat freebsd-update -F fetch install"
+            fi
+            ssh -t $i tmux new-session "fres"
+            ;;
+    esac
+    ssh -t $i 'pf-table remove white $REMOTEHOST'
+    ssh $i 'pf-table save all'
+    if [ "1" == "$FULL" ]; then
+        case $i in
+            alpha|beta)
+                ssh -t $i tmux new-session "fzg -f -n"
+                ;;
+            tank)
+                ssh -t $i tmux new-session "fzg -f -n"
+                ;;
+        esac
+        ssh $i reboot
+    fi
+done

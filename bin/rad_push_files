@@ -1,0 +1,151 @@
+#!/bin/sh
+######################################################################
+# LICENSE pulled in with, cat LICENSE  | awk '{print "# "$0}'
+######################################################################
+# Copyright (c) 2015, John Ko
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice, this
+#   list of conditions and the following disclaimer.
+#
+# * Redistributions in binary form must reproduce the above copyright notice,
+#   this list of conditions and the following disclaimer in the documentation
+#   and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+######################################################################
+# Script version is yymmdd-HHMMSS in UTC, date -u +%y%m%d-%H%M%S
+######################################################################
+SCRIPTVERSION=150830-235553
+
+REMOTEHOST=$1
+TMPFILE=./tmp_${REMOTEHOST}_push_filelist.txt
+FORCE=$2
+
+. ~/bin/rad_files_conf
+if [ -f rad/files_conf/${REMOTEHOST} ]; then
+      . rad/files_conf/${REMOTEHOST}
+fi
+
+if [ "x" == "x${REMOTEHOST}" ]; then
+    echo "ERROR: missing parameter hostname"
+    exit 1
+fi
+
+if [ ! -d hosts/${REMOTEHOST} ]; then
+    echo "ERROR: no folder for hosts/${REMOTEHOST}"
+    exit 1
+fi
+
+ssh ${REMOTEHOST} 'pf-anchor save all; pf-anchor backup all; pf-table save all; pf-table backup all'
+
+# add myself to whitelist
+ssh -t ${REMOTEHOST} 'pf-table add white $REMOTEHOST'
+
+ssh ${REMOTEHOST} 'pf-table show white'
+
+if [ -f rad/run_push_pre/${REMOTEHOST} ]; then
+      . rad/run_push_pre/${REMOTEHOST}
+fi
+
+echo "${FILELIST}" \
+| while read file owner group perm ; do
+    # not blank
+    if [ "x" != "x${file}" ]; then
+        # not a comment
+        if ! echo "${file}" | grep "^ *#" > /dev/null 2> /dev/null ; then
+            # is a folder
+            if echo "${file}" | grep '/$' > /dev/null 2> /dev/null ; then
+                echo "install -d -m ${perm} -o ${owner} -g ${group} ${file}"
+            fi
+        fi
+    fi
+done | ssh ${REMOTEHOST} sh
+
+echo "====="
+
+
+echo "${FILELIST}" \
+| while read file owner group perm ; do
+    # not blank
+    if [ "x" != "x${file}" ]; then
+        # not a comment
+        if ! echo "${file}" | grep "^ *#" > /dev/null 2> /dev/null ; then
+            # not a folder
+            if ! echo "${file}" | grep '/$' > /dev/null 2> /dev/null ; then
+                if [ -e "hosts/${REMOTEHOST}/${file}" ]; then
+                    echo "${file}"
+                fi
+            fi
+        fi
+    fi
+done > ${TMPFILE}
+
+if [ "x-f" == "x${FORCE}" ]; then
+    rsync -ichP \
+        --files-from=${TMPFILE} \
+        "hosts/${REMOTEHOST}/" \
+        "${REMOTEHOST}:/"
+else
+    rsync -nichP \
+        --files-from=${TMPFILE} \
+        "hosts/${REMOTEHOST}/" \
+        "${REMOTEHOST}:/"
+fi
+
+echo "====="
+
+echo "${FILELIST}" \
+| while read file owner group perm ; do
+    # not blank
+    if [ "x" != "x${file}" ]; then
+        # not a comment
+        if ! echo "${file}" | grep "^ *#" > /dev/null 2> /dev/null ; then
+            if [ -e "hosts/${REMOTEHOST}/${file}" ]; then
+                echo "chown -vv ${owner}:${group} ${file}"
+            fi
+        fi
+    fi
+done | ssh ${REMOTEHOST} sh
+
+echo "====="
+
+echo "${FILELIST}" \
+| while read file owner group perm ; do
+    # not blank
+    if [ "x" != "x${file}" ]; then
+        # not a comment
+        if ! echo "${file}" | grep "^ *#" > /dev/null 2> /dev/null ; then
+            if [ -e "hosts/${REMOTEHOST}/${file}" ]; then
+                echo "chmod -vv ${perm} ${file}"
+            fi
+        fi
+    fi
+done | ssh ${REMOTEHOST} sh | awk '$2!~$6{print}'
+# awk '$2!~$6{print}' is to omit chmod's that didn't change
+
+if [ -f rad/run_push_post/${REMOTEHOST} ]; then
+      . rad/run_push_post/${REMOTEHOST}
+fi
+
+# remote myself from whitelist
+ssh -t ${REMOTEHOST} 'pf-table remove white $REMOTEHOST'
+
+rm ${TMPFILE}
+
+if [ "x-f" != "x${FORCE}" ]; then
+    echo "Dry Run Complete."
+fi

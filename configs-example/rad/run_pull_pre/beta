@@ -1,0 +1,35 @@
+#!/bin/sh
+
+COMMANDS="
+eza-jls-id ;
+eza stop ;
+"
+
+#        couch dovecot dtfc ejabberd ffmpeg gitlab murmur nginx owncloud piwik postfix squid vnc
+for i in couch dovecot dtfc ejabberd ffmpeg gitlab murmur nginx owncloud piwik postfix squid vnc ; do
+    COMMANDS="${COMMANDS} eza config -r norun $i;"
+done
+
+echo "${COMMANDS}"
+echo "${COMMANDS}" | ssh ${REMOTEHOST} sh
+
+
+
+
+ssh ${REMOTEHOST} sh <<EOF
+if ! zfs list tank ; then
+    if ls /dev/ada*p5 ; then
+        fzg -l ;
+        touch /tmp/fzg-u ;
+    else
+        touch /tmp/fzg-i ;
+    fi ;
+fi ;
+EOF
+
+ssh -tt ${REMOTEHOST} "test -e /tmp/fzg-u && fzg -u"
+ssh     ${REMOTEHOST} "test -e /tmp/fzg-u && rm /tmp/fzg-u"
+
+ssh -tt ${REMOTEHOST} "test -e /tmp/fzg-i && fzg-random-key"
+ssh -tt ${REMOTEHOST} "test -e /tmp/fzg-i && fzg -i"
+ssh     ${REMOTEHOST} "test -e /tmp/fzg-i && rm /tmp/fzg-i"
