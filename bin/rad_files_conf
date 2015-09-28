@@ -397,8 +397,36 @@ FILELIST="
 /var/ports/packages/                                                      root      wheel     755
 /var/ports/packages/All/                                                  root      wheel     755
 /var/ports/packages/All/ffmpeg-2.8,1.txz                                  root      wheel     644
+/var/ports/packages/All/gitlab-7.14.1.txz                                 root      wheel     644
 /var/ports/packages/All/lame-3.99.5_2.txz                                 root      wheel     644
 /var/ports/packages/All/libaacplus-2.0.2_8.txz                            root      wheel     644
+/var/ports/packages/All/rubygem-asana-rails41-0.0.6.txz                   root      wheel     644
+/var/ports/packages/All/rubygem-cal-heatmap-rails0-rails41-0.0.1.txz      root      wheel     644
+/var/ports/packages/All/rubygem-carrierwave-rails41-0.10.0.txz            root      wheel     644
+/var/ports/packages/All/rubygem-default_value_for-rails41-3.0.0.1.txz     root      wheel     644
+/var/ports/packages/All/rubygem-devise-async-rails41-0.10.1.txz           root      wheel     644
+/var/ports/packages/All/rubygem-devise-two-factor-rails41-2.0.0.txz       root      wheel     644
+/var/ports/packages/All/rubygem-doorkeeper-rails41-3.0.0.txz              root      wheel     644
+/var/ports/packages/All/rubygem-dropzonejs-rails41-0.7.1.txz              root      wheel     644
+/var/ports/packages/All/rubygem-enumerize-rails41-0.11.0.txz              root      wheel     644
+/var/ports/packages/All/rubygem-font-awesome-rails-rails41-4.4.0.0.txz    root      wheel     644
+/var/ports/packages/All/rubygem-gitlab_git-rails41-7.2.15.txz             root      wheel     644
+/var/ports/packages/All/rubygem-gon-rails41-6.0.1.txz                     root      wheel     644
+/var/ports/packages/All/rubygem-grape-entity-rails41-0.4.8.txz            root      wheel     644
+/var/ports/packages/All/rubygem-grape-rails41-0.13.0.txz                  root      wheel     644
+/var/ports/packages/All/rubygem-haml-rails-rails41-0.9.0.txz              root      wheel     644
+/var/ports/packages/All/rubygem-html-pipeline-rails41-1.11.0.txz          root      wheel     644
+/var/ports/packages/All/rubygem-jquery-rails-rails41-3.1.4.txz            root      wheel     644
+/var/ports/packages/All/rubygem-jquery-scrollto-rails41-1.4.3.txz         root      wheel     644
+/var/ports/packages/All/rubygem-jquery-turbolinks-rails41-2.1.0_1.txz     root      wheel     644
+/var/ports/packages/All/rubygem-jquery-ui-rails-rails41-4.2.1.txz         root      wheel     644
+/var/ports/packages/All/rubygem-kaminari-rails41-0.16.3.txz               root      wheel     644
+/var/ports/packages/All/rubygem-rack-oauth2-rails41-1.2.1.txz             root      wheel     644
+/var/ports/packages/All/rubygem-redis-actionpack-rails41-4.0.1.txz        root      wheel     644
+/var/ports/packages/All/rubygem-redis-activesupport-rails41-4.1.2.txz     root      wheel     644
+/var/ports/packages/All/rubygem-redis-rails41-4.0.0.txz                   root      wheel     644
+/var/ports/packages/All/rubygem-seed-fu-rails41-2.3.5.txz                 root      wheel     644
+/var/ports/packages/All/rubygem-task_list-rails41-1.0.2.txz               root      wheel     644
 /var/ports/packages/All/squid-3.5.9.txz                                   root      wheel     644
 "
 export                                                                    FILELIST
