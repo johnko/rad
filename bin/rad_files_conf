@@ -395,6 +395,6 @@ FILELIST="
 /var/ports/packages/All/ffmpeg-2.8,1.txz                                      root      wheel     644
 /var/ports/packages/All/lame-3.99.5_2.txz                                     root      wheel     644
 /var/ports/packages/All/libaacplus-2.0.2_8.txz                                root      wheel     644
-/var/ports/packages/All/squid-3.5.9_1.txz                                     root      wheel     644
+/var/ports/packages/All/squid-3.5.10.txz                                      root      wheel     644
 "
 export                                                                        FILELIST
