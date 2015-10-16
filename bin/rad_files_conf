@@ -41,6 +41,7 @@ FILELIST="
 /etc/rc.conf.d/ezjail                                                         root      wheel     644
 /etc/rc.conf.d/ftp-proxy                                                      root      wheel     644
 /etc/rc.conf.d/hostname                                                       root      wheel     644
+/etc/rc.conf.d/iocage                                                         root      wheel     644
 /etc/rc.conf.d/netwait                                                        root      wheel     644
 /etc/rc.conf.d/network                                                        root      wheel     644
 /etc/rc.conf.d/ntpdate                                                        root      wheel     644
@@ -60,6 +61,7 @@ FILELIST="
 /etc/rc.conf.d/ucarppostfix                                                   root      wheel     644
 /etc/rc.conf.d/ucarpsquid                                                     root      wheel     644
 /etc/rc.conf.d/ucarpzabbix                                                    root      wheel     644
+/etc/rc.conf.d/vm                                                             root      wheel     644
 /etc/rc.conf.local                                                            root      wheel     644
 /etc/resolv.conf                                                              root      wheel     644
 /etc/ssh/                                                                     root      wheel     755
