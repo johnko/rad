@@ -85,7 +85,7 @@ FILELIST="
 /root/crontabbed/zsnapple_bootpool_hourly                                     root      wheel     600
 /root/crontabbed/zsnapple_pool_hourly                                         root      wheel     600
 /root/local/                                                                  root      wheel     755
-/root/local/cshpkglist                                                        root      wheel     600
+/root/local/pkglist                                                           root      wheel     600
 /root/local/cshproxy                                                          root      wheel     600
 /root/local/deploy.a.good                                                     root      wheel     600
 /root/local/deploy.a.nginx                                                    root      wheel     600
@@ -98,7 +98,7 @@ FILELIST="
 /root/local/tmux.conf.status                                                  root      wheel     600
 /root/perm/                                                                   root      wheel     755
 /root/perm/cshalias                                                           root      wheel     600
-/root/perm/cshpkglist                                                         root      wheel     600
+/root/perm/pkglist                                                            root      wheel     600
 /usr/                                                                         root      wheel     755
 /usr/home/                                                                    root      wheel     755
 /usr/home/_sshtunl/                                                           _sshtunl  _sshtunl  755
