@@ -19,7 +19,7 @@ for i in ${HOSTS} ; do
                 ssh -t $i tmux new-session "env PAGER=cat freebsd-update -F fetch install"
             fi
             ssh -t $i tmux new-session "fres"
-            ssh -t $i tmux new-session "env SQUID=10.7.7.1:3128 eza-freebsd-update"
+            ssh -t $i tmux new-session "env HTTP_PROXY=http://10.7.7.1:3128 eza-freebsd-update"
             ;;
         beta)
             ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v bootpool -q"
@@ -29,7 +29,7 @@ for i in ${HOSTS} ; do
                 ssh -t $i tmux new-session "env PAGER=cat freebsd-update -F fetch install"
             fi
             ssh -t $i tmux new-session "fres"
-            ssh -t $i tmux new-session "env SQUID=${SQUID} eza-freebsd-update"
+            ssh -t $i tmux new-session "env HTTP_PROXY=http://${SQUID} eza-freebsd-update"
             ;;
         tank)
             ssh -t $i tmux new-session "zsnapple -f short -l 1 -r -v bootpool -q"
