@@ -3,14 +3,4 @@
 ssh ${REMOTEHOST} sh <<EOF
 gdf ;
 crontabbed ;
-if ! zfs list tank/ezjail ; then
-    rm -r /usr/jails/ ;
-    if ! ls /dev/ada*p5 ; then
-        rm -r /usr/local/etc/ezjail/* ;
-        rm -r /usr/local/etc/fstab* ;
-    fi ;
-fi ;
-eza-jls-id ;
 EOF
-
-#eza start ;
